@@ -401,7 +401,7 @@ MoveAnimation:
 	call PlayAnimation
 	jr .next4
 .animationsDisabled
-	ld c,30
+	ld c,8
 	call DelayFrames
 .next4
 	call PlayApplyingAttackAnimation ; shake the screen or flash the pic in and out (to show damage)
@@ -786,7 +786,7 @@ DoBallShakeSpecialEffects:
 ; if it is the beginning of a shake, play a sound and wait 2/3 of a second
 	ld a,SFX_TINK
 	call PlaySound
-	ld c,40
+	ld c,10
 	call DelayFrames
 .skipPlayingSound
 	ld a,[wSubAnimCounter]
@@ -1068,7 +1068,7 @@ SpecialEffectPointers:
 	db $FF
 
 AnimationDelay10:
-	ld c,10
+	ld c,5
 	jp DelayFrames
 
 ; calls a function with the turn flipped from player to enemy or vice versa
@@ -1149,10 +1149,10 @@ FlashScreenLongSGB:
 FlashScreenLongDelay:
 	ld a,[wFlashScreenLongCounter]
 	cp a,4 ; never true since [wFlashScreenLongCounter] starts at 3
-	ld c,4
+	ld c,2
 	jr z,.delayFrames
 	cp a,3
-	ld c,2
+	ld c,1
 	jr z,.delayFrames
 	cp a,2 ; nothing is done with this
 	ld c,1
@@ -1164,11 +1164,11 @@ AnimationFlashScreen:
 	push af ; save initial palette
 	ld a,%00011011 ; 0, 1, 2, 3 (inverted colors)
 	ld [rBGP],a
-	ld c,2
+	ld c,1
 	call DelayFrames
 	xor a ; white out background
 	ld [rBGP],a
-	ld c,2
+	ld c,1
 	call DelayFrames
 	pop af
 	ld [rBGP],a ; restore initial palette
@@ -1371,7 +1371,7 @@ _AnimationSlideMonUp:
 	dec c
 	jr nz, .fillBottomRowLoop
 
-	ld c, 2
+	ld c, 1
 	call DelayFrames
 	pop bc
 	pop hl
@@ -1480,14 +1480,14 @@ AnimationBlinkEnemyMon:
 AnimationBlinkMon:
 ; Make the mon's sprite blink on and off for a second or two.
 	push af
-	ld c, 6
+	ld c, 4
 .loop
 	push bc
 	call AnimationHideMonPic
-	ld c, 5
+	ld c, 2
 	call DelayFrames
 	call AnimationShowMonPic
-	ld c, 5
+	ld c, 2
 	call DelayFrames
 	pop bc
 	dec c
@@ -1583,7 +1583,7 @@ AnimationMoveMonHorizontally:
 	call GetTileIDList
 	pop hl
 	call CopyPicTiles
-	ld c, 3
+	ld c, 2
 	jp DelayFrames
 
 AnimationResetMonPosition:
@@ -1640,7 +1640,7 @@ AnimationSpiralBallsInward:
 	inc de
 	dec c
 	jr nz, .innerLoop
-	ld c, 5
+	ld c, 2
 	call DelayFrames
 	pop hl
 	inc hl
@@ -1792,7 +1792,7 @@ _AnimationShootBallsUpward:
 	dec a
 	ld [wNumShootingBalls], a
 .next
-	ld de, 4
+	ld de, 2
 	add hl, de ; next OAM entry
 	dec b
 	jr nz, .innerLoop
@@ -1880,7 +1880,7 @@ AnimationSlideMonDownAndHide:
 	call GetTileIDList
 	call GetMonSpriteTileMapPointerFromRowCount
 	call CopyPicTiles
-	ld c, 8
+	ld c, 4
 	call DelayFrames
 	pop af
 	inc a
@@ -2930,12 +2930,12 @@ ShakeEnemyHUD_ShakeBG:
 	ld a, [wTempSCX]
 	add d
 	ld [hSCX], a
-	ld c, 2
+	ld c, 1
 	call DelayFrames
 	ld a, [wTempSCX]
 	sub d
 	ld [hSCX], a
-	ld c, 2
+	ld c, 1
 	call DelayFrames
 	dec e
 	jr nz, .loop
