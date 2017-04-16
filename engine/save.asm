@@ -160,14 +160,14 @@ SaveSAV:
 	coord hl, 1, 14
 	ld de,NowSavingString
 	call PlaceString
-	ld c,120
+	ld c,4
 	call DelayFrames
 	ld hl,GameSavedText
 	call PrintText
 	ld a, SFX_SAVE
 	call PlaySoundWaitForCurrent
 	call WaitForSoundToFinish
-	ld c,30
+	ld c,4
 	jp DelayFrames
 
 NowSavingString:

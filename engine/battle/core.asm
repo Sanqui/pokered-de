@@ -160,13 +160,16 @@ SlidePlayerAndEnemySilhouettesOnScreen:
 .slideSilhouettesLoop ; slide silhouettes of the player's pic and the enemy's pic onto the screen
 	ld h, b
 	ld l, $40
-	call SetScrollXForSlidingPlayerBodyLeft ; begin background scrolling on line $40
+	db 0,0,0
+	;call SetScrollXForSlidingPlayerBodyLeft ; begin background scrolling on line $40
 	inc b
 	inc b
 	ld h, $0
 	ld l, $60
-	call SetScrollXForSlidingPlayerBodyLeft ; end background scrolling on line $60
-	call SlidePlayerHeadLeft
+	db 0,0,0
+	db 0,0,0
+	;call SetScrollXForSlidingPlayerBodyLeft ; end background scrolling on line $60
+	;call SlidePlayerHeadLeft
 	ld a, c
 	ld [hSCX], a
 	dec c
@@ -242,7 +245,7 @@ StartBattle:
 	ld a, [wIsInBattle]
 	dec a ; is it a trainer battle?
 	call nz, EnemySendOutFirstMon ; if it is a trainer battle, send out enemy mon
-	ld c, 40
+	ld c, 8
 	call DelayFrames
 	call SaveScreenTilesToBuffer1
 .checkAnyPartyAlive
@@ -616,7 +619,7 @@ HandlePoisonBurnLeechSeed:
 	or [hl]
 	ret nz          ; test if fainted
 	call DrawHUDsAndHPBars
-	ld c, 20
+	ld c, 4
 	call DelayFrames
 	xor a
 	ret
@@ -1027,7 +1030,7 @@ TrainerBattleVictory:
 	cp LINK_STATE_BATTLING
 	ret z
 	call ScrollTrainerPicAfterBattle
-	ld c, 40
+	ld c, 8
 	call DelayFrames
 	call PrintEndBattleText
 ; win money
@@ -1230,7 +1233,7 @@ HandlePlayerBlackOut:
 	lb bc, 8, 21
 	call ClearScreenArea
 	call ScrollTrainerPicAfterBattle
-	ld c, 40
+	ld c, 8
 	call DelayFrames
 	ld hl, Sony1WinText
 	call PrintText
@@ -2502,7 +2505,7 @@ PartyMenuOrRockOrRun:
 
 SwitchPlayerMon:
 	callab RetreatMon
-	ld c, 50
+	ld c, 8
 	call DelayFrames
 	call AnimateRetreatingPlayerMon
 	ld a, [wWhichPokemon]
@@ -3243,7 +3246,7 @@ playPlayerMoveAnimation:
 	call nz,Bankswitch
 	jr MirrorMoveCheck
 playerCheckIfFlyOrChargeEffect:
-	ld c,30
+	ld c,15
 	call DelayFrames
 	ld a,[wPlayerMoveEffect]
 	cp a,FLY_EFFECT
@@ -5795,7 +5798,7 @@ playEnemyMoveAnimation:
 
 EnemyCheckIfFlyOrChargeEffect:
 	call SwapPlayerAndEnemyLevels
-	ld c, 30
+	ld c, 15
 	call DelayFrames
 	ld a, [wEnemyMoveEffect]
 	cp FLY_EFFECT
@@ -7025,7 +7028,7 @@ AnimateSendingOutMon:
 	ld [wDownscaledMonSize], a
 	lb bc, 3, 3
 	predef CopyDownscaledMonTiles
-	ld c, 4
+	ld c, 2
 	call DelayFrames
 	ld bc, -(SCREEN_WIDTH * 2 + 1)
 	add hl, bc
@@ -7033,7 +7036,7 @@ AnimateSendingOutMon:
 	ld [wDownscaledMonSize], a
 	lb bc, 5, 5
 	predef CopyDownscaledMonTiles
-	ld c, 5
+	ld c, 3
 	call DelayFrames
 	ld bc, -(SCREEN_WIDTH * 2 + 1)
 	jr .next
@@ -8051,7 +8054,7 @@ SwitchAndTeleportEffect:
 	srl b  ; b = enemyLevel / 4
 	cp b ; is rand[0, playerLevel + enemyLevel) >= (enemyLevel / 4)?
 	jr nc, .playerMoveWasSuccessful ; if so, allow teleporting
-	ld c, 50
+	ld c, 30
 	call DelayFrames
 	ld a, [wPlayerMoveNum]
 	cp TELEPORT
@@ -8066,7 +8069,7 @@ SwitchAndTeleportEffect:
 	ld a, [wPlayerMoveNum]
 	jr .playAnimAndPrintText
 .notWildBattle1
-	ld c, 50
+	ld c, 30
 	call DelayFrames
 	ld hl, IsUnaffectedText
 	ld a, [wPlayerMoveNum]
@@ -8093,7 +8096,7 @@ SwitchAndTeleportEffect:
 	srl b
 	cp b
 	jr nc, .enemyMoveWasSuccessful
-	ld c, 50
+	ld c, 30
 	call DelayFrames
 	ld a, [wEnemyMoveNum]
 	cp TELEPORT
@@ -8108,7 +8111,7 @@ SwitchAndTeleportEffect:
 	ld a, [wEnemyMoveNum]
 	jr .playAnimAndPrintText
 .notWildBattle2
-	ld c, 50
+	ld c, 30
 	call DelayFrames
 	ld hl, IsUnaffectedText
 	ld a, [wEnemyMoveNum]

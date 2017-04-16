@@ -1,7 +1,7 @@
 BattleTransition:
 	ld a, 1
 	ld [H_AUTOBGTRANSFERENABLED], a
-	call Delay3
+	call DelayFrame
 	xor a
 	ld [hWY], a
 	dec a
@@ -46,7 +46,7 @@ BattleTransition:
 	dec c
 	jr nz, .loop2
 
-	call Delay3
+	call DelayFrame
 	call LoadBattleTransitionTile
 	ld bc, 0
 	ld a, [wLinkState]
@@ -359,7 +359,7 @@ BattleTransition_FlashScreen_:
 	cp $1
 	jr z, .done
 	ld [rBGP], a
-	ld c, 2
+	ld c, 1
 	call DelayFrames
 	jr .loop
 .done
@@ -396,13 +396,13 @@ BattleTransition_Shrink:
 	call BattleTransition_CopyTiles2
 	ld a, $1
 	ld [H_AUTOBGTRANSFERENABLED], a
-	ld c, 6
+	ld c, 1
 	call DelayFrames
 	pop bc
 	dec c
 	jr nz, .loop
 	call BattleTransition_BlackScreen
-	ld c, 10
+	ld c, 1
 	jp DelayFrames
 
 ; used for high level trainer dungeon battles
@@ -429,12 +429,12 @@ BattleTransition_Split:
 	ld bc, 2
 	call BattleTransition_CopyTiles2
 	call BattleTransition_TransferDelay3
-	call Delay3
+	call DelayFrame
 	pop bc
 	dec c
 	jr nz, .loop
 	call BattleTransition_BlackScreen
-	ld c, 10
+	ld c, 1
 	jp DelayFrames
 
 BattleTransition_CopyTiles1:
@@ -630,7 +630,7 @@ BattleTransition_Circle_Sub1:
 BattleTransition_TransferDelay3:
 	ld a, 1
 	ld [H_AUTOBGTRANSFERENABLED], a
-	call Delay3
+	call DelayFrame
 	xor a
 	ld [H_AUTOBGTRANSFERENABLED], a
 	ret

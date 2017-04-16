@@ -30,7 +30,7 @@ AnimateHealingMachine:
 	call CopyHealingMachineOAM
 	ld a, SFX_HEALING_MACHINE
 	call PlaySound
-	ld c, 30
+	ld c, 8
 	call DelayFrames
 	dec b
 	jr nz, .partyLoop
@@ -52,7 +52,7 @@ AnimateHealingMachine:
 .waitLoop2
 	ld a, [wChannelSoundIDs]
 	cp MUSIC_PKMN_HEALED ; is the healed music still playing?
-	jr z, .waitLoop2 ; if so, check gain
+	;jr z, .waitLoop2 ; if so, check gain
 	ld c, 32
 	call DelayFrames
 	pop af

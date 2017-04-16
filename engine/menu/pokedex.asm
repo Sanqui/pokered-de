@@ -573,6 +573,7 @@ ShowPokedexDataInternal:
 	xor a
 	ld [$fff4],a
 .waitForButtonPress
+	call DelayFrame
 	call JoypadLowSensitivity
 	ld a,[hJoy5]
 	and a,A_BUTTON | B_BUTTON

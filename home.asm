@@ -3222,7 +3222,7 @@ PlaySoundWaitForCurrent::
 WaitForSoundToFinish::
 	ld a, [wLowHealthAlarm]
 	and $80
-	ret nz
+	ret
 	push hl
 .waitLoop
 	ld hl, wChannelSoundIDs + Ch4
@@ -3463,6 +3463,7 @@ WaitForTextScrollButtonPress::
 	coord hl, 18, 16
 	call HandleDownArrowBlinkTiming
 	pop hl
+	call DelayFrame
 	call JoypadLowSensitivity
 	predef CableClub_Run
 	ld a, [hJoy5]
@@ -3541,34 +3542,17 @@ PrintLetterDelay::
 	push hl
 	push de
 	push bc
-	ld a,[wLetterPrintingDelayFlags]
-	bit 0,a
-	jr z,.waitOneFrame
-	ld a,[wOptions]
-	and $f
-	ld [H_FRAMECOUNTER],a
-	jr .checkButtons
-.waitOneFrame
-	ld a,1
-	ld [H_FRAMECOUNTER],a
-.checkButtons
-	call Joypad
-	ld a,[hJoyHeld]
-.checkAButton
-	bit 0,a ; is the A button pressed?
-	jr z,.checkBButton
-	jr .endWait
-.checkBButton
-	bit 1,a ; is the B button pressed?
-	jr z,.buttonsNotPressed
-.endWait
-	call DelayFrame
-	jr .done
-.buttonsNotPressed ; if neither A nor B is pressed
-	ld a,[H_FRAMECOUNTER]
+	ld a, [H_FRAMECOUNTER]
 	and a
-	jr nz,.checkButtons
-.done
+	jr z, .zero
+	dec a
+	ld [H_FRAMECOUNTER], a
+	jr .end
+.zero
+    call DelayFrame
+    ld a, 2
+    ld [H_FRAMECOUNTER], a
+.end
 	pop bc
 	pop de
 	pop hl
@@ -3929,6 +3913,7 @@ HandleMenuInput_::
 	callba AnimatePartyMon ; shake mini sprite of selected pokemon
 .getJoypadState
 	pop hl
+	call DelayFrame
 	call JoypadLowSensitivity
 	ld a,[hJoy5]
 	and a ; was a key pressed?
