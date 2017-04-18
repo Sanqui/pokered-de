@@ -141,12 +141,12 @@ LinkMenu:
 	call SaveScreenTilesToBuffer1
 	ld hl, WhereWouldYouLikeText
 	call PrintText
-	coord hl, 5, 5
+	coord hl, 4, 5
 	ld b, $6
-	ld c, $d
+	ld c, $e
 	call TextBoxBorder
 	call UpdateSprites
-	coord hl, 7, 7
+	coord hl, 6, 7
 	ld de, CableClubOptionsText
 	call PlaceString
 	xor a
@@ -155,7 +155,7 @@ LinkMenu:
 	ld hl, wTopMenuItemY
 	ld a, $7
 	ld [hli], a
-	ld a, $6
+	ld a, $5
 	ld [hli], a
 	xor a
 	ld [hli], a
@@ -240,11 +240,11 @@ LinkMenu:
 	ld c, d
 .updateCursorPosition
 	ld a, b
-	Coorda 6, 7
+	Coorda 5, 7
 	ld a, c
-	Coorda 6, 9
+	Coorda 5, 9
 	ld a, d
-	Coorda 6, 11
+	Coorda 5, 11
 	ld c, 40
 	call DelayFrames
 	call LoadScreenTilesFromBuffer1
@@ -343,11 +343,11 @@ CableClubOptionsText:
 DisplayContinueGameInfo:
 	xor a
 	ld [H_AUTOBGTRANSFERENABLED], a
-	coord hl, 4, 7
+	coord hl, 3, 7
 	ld b, 8
-	ld c, 14
+	ld c, 15
 	call TextBoxBorder
-	coord hl, 5, 9
+	coord hl, 4, 9
 	ld de, SaveScreenInfoText
 	call PlaceString
 	coord hl, 12, 9
@@ -367,13 +367,13 @@ DisplayContinueGameInfo:
 PrintSaveScreenText:
 	xor a
 	ld [H_AUTOBGTRANSFERENABLED], a
-	coord hl, 4, 0
+	coord hl, 3, 0
 	ld b, $8
-	ld c, $e
+	ld c, $f
 	call TextBoxBorder
 	call LoadTextBoxTilePatterns
 	call UpdateSprites
-	coord hl, 5, 2
+	coord hl, 4, 2
 	ld de, SaveScreenInfoText
 	call PlaceString
 	coord hl, 12, 2

@@ -11,7 +11,7 @@ CableClub_DoBattleOrTrade:
 	call LoadTrainerInfoTextBoxTiles
 	coord hl, 3, 8
 	ld b, 2
-	ld c, 12
+	ld c, 13
 	call CableClub_TextBoxBorder
 	coord hl, 4, 10
 	ld de, PleaseWaitString
@@ -602,7 +602,7 @@ TradeCenter_DrawCancelBox:
 	call FillMemory
 	coord hl, 0, 15
 	ld b, 1
-	ld c, 9
+	ld c, 12
 	call CableClub_TextBoxBorder
 	coord hl, 2, 16
 	ld de, CancelTextString
@@ -712,8 +712,8 @@ TradeCenter_Trade:
 	coord bc, 1, 14
 	call TextCommandProcessor
 	call SaveScreenTilesToBuffer1
-	coord hl, 9, 7
-	lb bc, 8, 10
+	coord hl, 10, 7
+	lb bc, 8, 11
 	ld a, TRADE_CANCEL_MENU
 	ld [wTwoOptionMenuID], a
 	ld a, TWO_OPTION_MENU
